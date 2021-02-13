@@ -19,9 +19,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          len: {
-            args: [1, 100],
+          notEmpty: {
+            args: true,
             msg: "first name cannot be empty",
+          },
+          is: {
+            args:/^[a-zA-Z\s]+$/,
+            msg:
+              "Invalid First Name, only characters are allowed",
           },
         },
       },
@@ -33,18 +38,20 @@ module.exports = (sequelize, DataTypes) => {
             args: true,
             msg: "last name cannot be empty",
           },
+          is: {
+            args:/^[a-zA-Z\s]+$/,
+            msg:
+              "Invalid Last Name, only characters are allowed",
+          },
         },
       },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
         notEmpty: true,
-        validate: {
-          is: {
-            args: /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/,
-            msg:
-              "password must be atleast 8 characters long and must include atleast 1 lower case, 1 upper case, 1 special character and 1 number",
-          },
+        set(password) {
+          const salt = bcrypt.genSaltSync(10);
+          this.setDataValue("password", bcrypt.hashSync(password, salt));
         },
       },
       username: {
@@ -71,16 +78,6 @@ module.exports = (sequelize, DataTypes) => {
           fields: ["username"],
         },
       ],
-      hooks: {
-        beforeCreate: (user) => {
-          const salt = bcrypt.genSaltSync(10);
-          user.password = bcrypt.hashSync(user.password, salt);
-        },
-        beforeUpdate: (user) => {
-          const salt = bcrypt.genSaltSync(10);
-          user.password = bcrypt.hashSync(user.password, salt);
-        },
-      },
     }
   );
   User.sync({ alter: true });

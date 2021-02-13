@@ -5,7 +5,8 @@ const userRouter = require("express").Router();
 const usersController = require("../controllers/users");
 
 // authentication middleware
-const authenticateUser = require('../middleware/userAuthentication');
+const authenticateUser = require("../middleware/userAuthentication");
+const validateUser = require("../middleware/userValidation");
 
 /**
  * The following route is used to create a new user
@@ -15,7 +16,7 @@ const authenticateUser = require('../middleware/userAuthentication');
  * @param {Object} req request
  * @param {Object} res response
  */
-userRouter.post("/", usersController.createUser);
+userRouter.post("/", validateUser, usersController.createUser);
 
 /**
  * The following route is used to get user information
@@ -35,7 +36,11 @@ userRouter.get("/self", authenticateUser, usersController.getUser);
  * @param {Object} req request
  * @param {Object} res response
  */
-userRouter.put("/self", authenticateUser, usersController.updateUser);
+userRouter.put(
+  "/self",
+  authenticateUser,
+  validateUser,
+  usersController.updateUser
+);
 
-  
 module.exports = userRouter;
