@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models").User;
-const { userWithoutPassword } = require('../utils/helper');
+const { userWithoutPassword } = require("../utils/helper");
 
 const createUser = (user) => {
   return new Promise((resolve, reject) => {
@@ -26,13 +26,36 @@ const fromattedErrors = (errorResponse) => {
 
 const updateUser = (user, updateValues) => {
   return new Promise((resolve, reject) => {
-    user.update(updateValues)
+    user
+      .update(updateValues)
       .then((updatedUser) => {
         resolve(userWithoutPassword(updatedUser));
       })
       .catch((errorResponse) => {
         reject(fromattedErrors(errorResponse));
       });
+  });
+};
+
+const validateUser = (user) => {
+  const passwordRegex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
+  const { password } = user;
+  console.log("password", password);
+  return new Promise((resolve, reject) => {
+    if (password !== undefined) {
+      if (password.match(passwordRegex)) {
+        console.log("matched");
+        resolve();
+      } else {
+        reject({
+          message:
+            "password must be atleast 8 characters long and must include atleast 1 lower case, 1 upper case, 1 special character and 1 number",
+        });
+      }
+    } else {
+      console.log("here");
+      resolve();
+    }
   });
 };
 
@@ -56,4 +79,5 @@ module.exports = {
   createUser,
   authenticate,
   updateUser,
+  validateUser,
 };
