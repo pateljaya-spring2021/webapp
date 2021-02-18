@@ -4,16 +4,15 @@
 const express = require('express');
 
 const userRoutes = require("./routes/userRoutes");
+const bookRoutes = require("./routes/bookRoutes");
 
 //app
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
-//context-path
-const appContextPath = '/v1'
-
 //routes
-app.use(appContextPath + '/user', userRoutes)
+app.use('/v1/user', userRoutes)
+app.use('/book', bookRoutes)
 
 module.exports = app;

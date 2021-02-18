@@ -20,9 +20,9 @@ userRouter.post("/", validateUser, usersController.createUser);
 
 /**
  * The following route is used to get user information
- * @method POST
+ * @method GET
  * @memberof userRoute
- * @function /v1/user
+ * @function /v1/user/self
  * @param {Object} req request
  * @param {Object} res response
  */
@@ -30,9 +30,9 @@ userRouter.get("/self", authenticateUser, usersController.getUser);
 
 /**
  * The following route is used to update a user
- * @method POST
+ * @method PUT
  * @memberof userRoute
- * @function /v1/user
+ * @function /v1/user/self
  * @param {Object} req request
  * @param {Object} res response
  */

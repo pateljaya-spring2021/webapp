@@ -1,4 +1,5 @@
 "use strict";
+const { v4 : uuid } = require("uuid");
 const { Model } = require("sequelize");
 const bcrypt = require("bcryptjs");
 module.exports = (sequelize, DataTypes) => {
@@ -19,10 +20,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: {
-            args: true,
-            msg: "first name cannot be empty",
-          },
           is: {
             args:/^[a-zA-Z\s]+$/,
             msg:
@@ -34,10 +31,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-          notEmpty: {
-            args: true,
-            msg: "last name cannot be empty",
-          },
           is: {
             args:/^[a-zA-Z\s]+$/,
             msg:
@@ -78,6 +71,11 @@ module.exports = (sequelize, DataTypes) => {
           fields: ["username"],
         },
       ],
+      hooks: {
+        beforeCreate: (user) => {
+        user.id = uuid()
+        },
+      },
     }
   );
   User.sync({ alter: true });
