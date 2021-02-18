@@ -37,14 +37,18 @@ const updateUser = (user, updateValues) => {
   });
 };
 
-const validateUser = (user) => {
+const validateUser = (user, method) => {
   const passwordRegex = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/;
   const { password } = user;
-  console.log("password", password);
   return new Promise((resolve, reject) => {
-    if (password !== undefined) {
+    if (method == "PUT" && !user.hasOwnProperty("password")) {
+      return resolve();
+    }
+
+    if (password === undefined || password === null) {
+      reject({ message: "password cannot be null" });
+    } else {
       if (password.match(passwordRegex)) {
-        console.log("matched");
         resolve();
       } else {
         reject({
@@ -52,9 +56,6 @@ const validateUser = (user) => {
             "password must be atleast 8 characters long and must include atleast 1 lower case, 1 upper case, 1 special character and 1 number",
         });
       }
-    } else {
-      console.log("here");
-      resolve();
     }
   });
 };
