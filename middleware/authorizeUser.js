@@ -17,7 +17,7 @@ const authorizeUser = (req, res, next) => {
       }
     })
     .catch((error) => {
-      return res.status(400).send(error);
+      return res.status(404).send(error);
     });
 };
 module.exports = authorizeUser;
