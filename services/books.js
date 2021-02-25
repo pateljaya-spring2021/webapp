@@ -38,7 +38,6 @@ const deleteBook = (book) => {
         resolve();
       })
       .catch(() => {
-        console.log("here1");
         reject({ message: "Something went wrong. Unable to delete book" });
       });
   });
