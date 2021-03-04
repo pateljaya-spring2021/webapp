@@ -67,7 +67,7 @@ const addBookImage = async (req, res) => {
 
   const book_id = req.book.id;
   const user_id = req.user.id;
-  const file_name = new Date().getMilliseconds() + "_" + req.file.originalname;
+  const file_name = req.file.originalname;
   const file_path = req.file.path;
 
   File.findAll({

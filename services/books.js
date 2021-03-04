@@ -39,7 +39,12 @@ const deleteBook = (book) => {
       .destroy()
       .then((book) => {
         book.dataValues.book_images.forEach((file) => {
-          deleteBookImageFromS3(file.file_name);
+
+          const s3_object_name = file.s3_object_name;
+
+          const s3Key = s3_object_name.substring(s3_object_name.lastIndexOf('/') + 1);
+
+          deleteBookImageFromS3(s3Key);
         });
         resolve();
       })
@@ -67,7 +72,7 @@ const addBookImageToS3 = (file_path, file_name) => {
     let fileStream = fs.createReadStream(file_path);
     let uploadParams = {
       Bucket: process.env.AWS_BUCKET,
-      Key: file_name,
+      Key: new Date().getMilliseconds() + "_" + file_name,
       Body: "",
     };
 
