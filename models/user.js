@@ -1,5 +1,5 @@
 "use strict";
-const { v4 : uuid } = require("uuid");
+const { v4: uuid } = require("uuid");
 const { Model } = require("sequelize");
 const bcrypt = require("bcryptjs");
 module.exports = (sequelize, DataTypes) => {
@@ -21,9 +21,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           is: {
-            args:/^[a-zA-Z\s]+$/,
-            msg:
-              "Invalid First Name, only characters are allowed",
+            args: /^[a-zA-Z\s]+$/,
+            msg: "Invalid First Name, only characters are allowed",
           },
         },
       },
@@ -32,9 +31,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         validate: {
           is: {
-            args:/^[a-zA-Z\s]+$/,
-            msg:
-              "Invalid Last Name, only characters are allowed",
+            args: /^[a-zA-Z\s]+$/,
+            msg: "Invalid Last Name, only characters are allowed",
           },
         },
       },
@@ -73,11 +71,17 @@ module.exports = (sequelize, DataTypes) => {
       ],
       hooks: {
         beforeCreate: (user) => {
-        user.id = uuid()
+          user.id = uuid();
         },
       },
     }
   );
+
+  User.associate = (models) => {
+    User.hasMany(models.Book, { foreignKey: "user_id" });
+    User.hasMany(models.File, { foreignKey: "user_id" });
+  };
+
   User.sync({ alter: true });
   return User;
 };

@@ -8,11 +8,13 @@ const bookRoutes = require("./routes/bookRoutes");
 
 //app
 const app = express();
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+let bodyParser = require('body-parser');
+
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({extended:true, limit:'50mb'}));
 
 //routes
 app.use('/v1/user', userRoutes)
-app.use('/book', bookRoutes)
+app.use('/books', bookRoutes)
 
 module.exports = app;
