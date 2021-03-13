@@ -94,3 +94,4 @@ jobs:
         ls -al
         deployId=$(jq --raw-output '.deploymentId' deployment_id.txt)
         aws deploy wait deployment-successful --deployment-id $deployId
+        
