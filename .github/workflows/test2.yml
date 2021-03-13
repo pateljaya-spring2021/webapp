@@ -40,9 +40,9 @@ jobs:
       - name: Install packages
         run: "npm install"
       - name: Setup Database
-        run: "npm run migrations"
+        run: "sequelize db:migrate"
       - name: Run Tests
-        run: "npm run test"
+        run: "npm test"
         
   build-webapp:
     runs-on: ubuntu-latest
