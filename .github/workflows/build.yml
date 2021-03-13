@@ -14,19 +14,19 @@ on:
       AWS_REGION: us-east-1
 jobs:
   run-unit-test:
-
     runs-on: ubuntu-latest
-      if: github.ref != 'refs/heads/master'
-      steps:
+    if: github.ref != 'refs/heads/master'
+    
+    steps:
     - name: Checkout Repository
-        uses: actions/checkout@v1
-        
-      -name: Running Unit Test
-      run: |
+      uses: actions/checkout@v1
+
+    -name: Running Unit Test
+    run: |
       npm install
       npm test
   
-  build:
+  build-webapp:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
  
