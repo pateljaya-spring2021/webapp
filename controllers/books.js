@@ -116,9 +116,10 @@ const isValidImage = (file_name) => {
 const deleteBookImage = (req, res) => {
   File.findByPk(req.params.image_id)
     .then((file) => {
+      const s3_Key = file.dataValues.s3_object_name.substring(file.dataValues.s3_object_name.lastIndexOf('/') + 1)
       if (file) {
         bookService
-          .deleteBookImageFromS3(file.dataValues.file_name)
+          .deleteBookImageFromS3(s3_Key)
           .then((s3_data) => {
             bookService
               .deleteBookImage(file.dataValues.file_id)
