@@ -6,12 +6,7 @@ on:
   pull_request:
 
   workflow_dispatch:
-  env:
 
-      ARTIFACT_NAME: csye6225-webapp-${{ github.sha }}.zip
-      CODEDEPLOY_APPLICATION_NAME: csye6225-webapp
-      CODEDEPLOY_GROUP_NAME: csye6225-webapp-deployment
-      AWS_REGION: us-east-1
 jobs:
   run-unit-test:
     runs-on: ubuntu-latest
@@ -29,6 +24,13 @@ jobs:
   build-webapp:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
+
+    env:
+
+      ARTIFACT_NAME: csye6225-webapp-${{ github.sha }}.zip
+      CODEDEPLOY_APPLICATION_NAME: csye6225-webapp
+      CODEDEPLOY_GROUP_NAME: csye6225-webapp-deployment
+      AWS_REGION: us-east-1
  
     strategy:
       matrix:
