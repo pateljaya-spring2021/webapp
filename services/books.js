@@ -96,7 +96,7 @@ const deleteBookImageFromS3 = (file_to_delete) => {
   return new Promise((resolve, reject) => {
     let deleteParams = {
       Bucket: process.env.AWS_BUCKET,
-      Key: file_to_delete,
+      Key:file_to_delete,
     };
 
     s3.deleteObject(deleteParams, function (err, data) {
@@ -123,7 +123,7 @@ const deleteBookImage = (file_id) => {
         resolve();
       })
       .catch(() => {
-        reject({ message: "Something went wrong. Unable to delete book" });
+        reject({ message: "Something went wrong. Unable to delete" });
       });
   });
 };
