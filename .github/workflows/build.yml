@@ -1,21 +1,35 @@
 name: On Push - Build and Deploy WebApp
-
-on:
+on: 
   push:
-    branches: [ master ]
+    branches:
+      - 'master'
+  pull_request:
+
   workflow_dispatch:
-
-jobs:
-  build:
-
-    runs-on: ubuntu-latest
-    env:
+  env:
 
       ARTIFACT_NAME: csye6225-webapp-${{ github.sha }}.zip
       CODEDEPLOY_APPLICATION_NAME: csye6225-webapp
       CODEDEPLOY_GROUP_NAME: csye6225-webapp-deployment
       AWS_REGION: us-east-1
+jobs:
+  run-unit-test:
 
+    runs-on: ubuntu-latest
+      if: github.ref != 'refs/heads/master'
+      steps:
+    - name: Checkout Repository
+        uses: actions/checkout@v1
+        
+      -name: Running Unit Test
+      run: |
+      npm install
+      npm test
+  
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+ 
     strategy:
       matrix:
         node-version: [14.x]
@@ -30,10 +44,7 @@ jobs:
         unzip awscliv2.zip
         sudo ./aws/install
 
-    -name: Running Unit Test
-      run: |
-      npm install
-      npm test
+ 
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
