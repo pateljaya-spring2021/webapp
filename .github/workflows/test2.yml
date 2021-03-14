@@ -9,12 +9,12 @@ jobs:
   run-unit-test:
     runs-on: ubuntu-latest
     if: github.ref != 'refs/heads/master'   
-    env:
-      DB_USERNAME: root
-      DB_PASSWORD: root1234
-      DB_DATABASE: cloud_webapp
-      MYSQL_HOST: mysql-master
-      NODE_ENV: test      
+#     env:
+#       DB_USERNAME: root
+#       DB_PASSWORD: root1234
+#       DB_DATABASE: cloud_webapp
+#       MYSQL_HOST: mysql-master
+#       NODE_ENV: test      
     container:
       image: node:14.5.0-alpine
     services:
@@ -23,10 +23,10 @@ jobs:
         ports:
           - 33306:3306
         env:
-          MYSQL_DATABASE: ${{ env.DB_DATABASE }}
-          MYSQL_USER: ${{ env.DB_USERNAME }}
-          MYSQL_PASSWORD: ${{ env.DB_PASSWORD }}
-          MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_PASSWORD }}
+          MYSQL_DATABASE: 'cloud_webapp'
+#           MYSQL_USER: ${{ env.DB_USERNAME }}
+#           MYSQL_PASSWORD: ${{ env.DB_PASSWORD }}
+          MYSQL_ROOT_PASSWORD: 'root1234'
     steps:
       - uses: actions/checkout@v2
       - name: Install packages
