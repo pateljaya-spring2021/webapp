@@ -23,73 +23,41 @@ jobs:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
 
-    env:
-
-      ARTIFACT_NAME: csye6225-webapp-${{ github.sha }}.zip
-      CODEDEPLOY_APPLICATION_NAME: csye6225-webapp
-      CODEDEPLOY_GROUP_NAME: csye6225-webapp-deployment
-      AWS_REGION: us-east-1
- 
     strategy:
       matrix:
-        node-version: [14.x]
+        appname: ['csye6225-webapp']
+        deploy-group: ['csye6225-webapp-deployment']
+        s3-bucket: ['codedeploy.jayashreepatel.me']
+        s3-key: ['webapp-$GITHUB_SHA']
+        region: ['us-east-1']
 
     steps:
-
-    - uses: actions/checkout@v2
-
-    - name: Install awscli
-      run: |
-        curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-        unzip awscliv2.zip
-        sudo ./aws/install --update
-
- 
-
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-
-    - name: Install Dependencies
-      run: |
-        sudo apt-get update && sudo apt-get install -y wget zip unzip jq
-  
-    - name: Built Deployment Artifacts
-      run: |
-      
-        mkdir codedeploy_artifact
-        cp webapp/amazon-cloudwatch-agent.json .
-        zip -r ${{ env.ARTIFACT_NAME }} webapp codedeploy_scripts/*.sh appspec.yml --exclude webapp/.env
-        pwd
-        ls -al
-        mv ${{ env.ARTIFACT_NAME }} codedeploy_artifact
-        cd codedeploy_artifact
-        pwd
-        ls -al
-        cd ..
-        pwd
-        ls -al
-    - name: Configuring AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-        aws-region: ${{ env.AWS_REGION }}
-
-    - name: Upload Artifact Zip to S3
-      run: |
-        aws s3 sync ./codedeploy_artifact s3://${{ secrets.CODEDEPLOY_BUCKET }}
-    - name: Make CodeDeploy API call
-      run: |
-        echo $(aws deploy create-deployment \
-        --application-name ${{ env.CODEDEPLOY_APPLICATION_NAME }} \
-        --deployment-config-name CodeDeployDefault.AllAtOnce \
-        --deployment-group-name ${{ env.CODEDEPLOY_GROUP_NAME }} \
-        --s3-location bucket=${{ secrets.CODEDEPLOY_BUCKET }},bundleType=zip,key=${{ env.ARTIFACT_NAME }} \
-        --region ${{ env.AWS_REGION }} \
-        --output json) > deployment_id.txt
-        ls -al
-        deployId=$(jq --raw-output '.deploymentId' deployment_id.txt)
-        aws deploy wait deployment-successful --deployment-id $deployId
-        
+      - uses: actions/checkout@v2
+      - name: Install Packages
+        run: |
+          sudo apt install -y curl
+          sudo apt-get install -y unzip
+      - name: Install AWS CLI
+        run: |
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
+      - name: Configure awscli
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{matrix.region}}
+      - name: Push artifact to S3
+        run: |
+          aws deploy push \
+          --application-name ${{ matrix.appname }} \
+          --description "This is a revision for the ${{ matrix.appname }}-$GITHUB_SHA" \
+          --s3-location s3://${{ matrix.s3-bucket }}/${{ matrix.s3-key }}.zip
+      - name: Deploy application on EC2
+        run: |
+          aws deploy create-deployment \
+          --application-name ${{matrix.appname}} \
+          --deployment-group-name ${{matrix.deploy-group}} \
+          --description "Deploy application revision ${{ matrix.appname }}-$GITHUB_SHA" \
+          --s3-location bucket=${{matrix.s3-bucket}},bundleType=zip,key=${{matrix.s3-key}}.zip
