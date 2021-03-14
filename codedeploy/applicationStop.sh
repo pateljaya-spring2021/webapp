@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo kill -9 $(sudo lsof -t -i:3005)
+pm2 stop server
