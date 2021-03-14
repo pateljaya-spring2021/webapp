@@ -4,7 +4,7 @@
   "description": "webapp with Nodejs and mysql",
   "main": "index.js",
   "scripts": {
-    "start": "sequelize db:migrate && nodemon server.js",
+    "start": "sequelize db:migrate && nohup nodemon server.js",
     "test": "NODE_ENV=test jest tests"
   },
   "author": "Jayashree Patel",
