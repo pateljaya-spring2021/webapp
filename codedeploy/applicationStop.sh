@@ -5,4 +5,4 @@
 # sudo systemctl stop cloudwatch.service
 
 echo "*******Kill Node Service*********"
-killall -s KILL node
+lsof -ti tcp:3005 | xargs kill
