@@ -4,23 +4,17 @@ on:
     branches:
       - 'master'
   pull_request:
-
   workflow_dispatch:
-
 jobs:
   run-unit-test:
     runs-on: ubuntu-latest
-    if: github.ref != 'refs/heads/master'
-    
-          
+    if: github.ref != 'refs/heads/master'   
     env:
-     
       DB_USERNAME: root
       DB_PASSWORD: root1234
       DB_DATABASE: cloud_webapp
-      DB_HOST: 127.0.0.1
-      DB_DIALECT: mysql
-      
+      MYSQL_HOST: mysql-master
+      NODE_ENV: test      
     container:
       image: node:14.5.0-alpine
     services:
@@ -32,19 +26,17 @@ jobs:
           MYSQL_DATABASE: ${{ env.DB_DATABASE }}
           MYSQL_USER: ${{ env.DB_USERNAME }}
           MYSQL_PASSWORD: ${{ env.DB_PASSWORD }}
-          MYSQL_Db_HOST: ${{ env.DB_HOST }}
-          MYSQL_DB_DIALECT: ${{ env.DB_DIALECT }}
- 
+          MYSQL_ROOT_PASSWORD: ${{ env.MYSQL_PASSWORD }}
     steps:
       - uses: actions/checkout@v2
       - name: Install packages
         run: "npm install"
       - name: Install Sequelize
         run: "npm install -g sequelize-cli"
-      - name: Setup Database
-        run: "sequelize db:migrate"
+#       - name: Setup Database
+#         run: "sequelize db:migrate"
       - name: Run Tests
-        run: "npm test"
+        run: "NODE_ENV=test sequelize db:migrate && jest tests --runInBand"
         
   build-webapp:
     runs-on: ubuntu-latest
