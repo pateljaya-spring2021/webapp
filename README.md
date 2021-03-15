@@ -43,7 +43,6 @@ npm start
 http://localhost:3005/v1/uer/self
 ```
 
-
 2. For Updating User Info  
 (http request type - PUT)
 
