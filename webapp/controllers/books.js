@@ -138,7 +138,7 @@ const deleteBookImage = (req, res) => {
       }
     })
     .catch((errorResponse) => {
-      reject(fromattedErrors(errorResponse));
+      res.status(404).send({ message: "No such image found" });
     });
 };
 
