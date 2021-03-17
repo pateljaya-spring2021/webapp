@@ -15,6 +15,6 @@ app.use(bodyParser.urlencoded({extended:true, limit:'50mb'}));
 
 //routes
 app.use('/v1/user', userRoutes)
-app.use('/mybooks', bookRoutes)
+app.use('/books', bookRoutes)
 
 module.exports = app;
