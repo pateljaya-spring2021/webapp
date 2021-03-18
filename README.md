@@ -127,7 +127,7 @@ Sample Request Body
 http://localhost:3005/books
 ```
 
-3. For getting book by id  
+3. For getting book by id
 (http request type - GET)
 
 ```
