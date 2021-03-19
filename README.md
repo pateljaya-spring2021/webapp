@@ -128,7 +128,7 @@ http://localhost:3005/books
 ```
 
 3. For getting book by id
-(http request type - GET)
+(http request type - GET) 
 
 ```
 http://localhost:3005/books/{id}
