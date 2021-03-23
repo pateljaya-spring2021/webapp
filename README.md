@@ -131,5 +131,5 @@ http://localhost:3005/books
 (http request type - GET) 
 
 ```
-http://localhost:3005/books/{id}
+http://localhost:3005/books/{id} 
 ```
