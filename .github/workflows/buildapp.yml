@@ -46,6 +46,7 @@ jobs:
     - name: Built Deployment Artifacts
       run: |     
         mkdir codedeploy_artifact
+        cp webapp/AmazonCloudWatch-agent.json .
         zip -r ${{ env.ARTIFACT_NAME }} webapp codedeploy appspec.yml --exclude webapp/.env
         pwd
         ls -al
