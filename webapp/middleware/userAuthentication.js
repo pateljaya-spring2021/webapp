@@ -1,10 +1,13 @@
 const models = require("../models");
 const userService = require("../services/users");
+const logger = require('../config/logger');
 
 const authenticateUser = (req, res, next) => {
+  logger.info("Entering User Authentication");
   // check for basic auth header
   const { authorization } = req.headers;
   if (!authorization && authorization.indexOf("Basic ") === -1) {
+    logger.error("Missing Authorization Header");
     return res.status(401).json({ message: "Missing Authorization Header" });
   }
 
@@ -18,10 +21,12 @@ const authenticateUser = (req, res, next) => {
   userService
     .authenticate( username, password )
     .then((user) => {
+      logger.info("User Authenticated");
       req.user = user;
       next();
     })
     .catch((error) => {
+      logger.error(error);
       res.status(401).json(error);
     });
 };
