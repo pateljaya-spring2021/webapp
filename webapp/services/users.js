@@ -1,11 +1,21 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models").User;
 const { userWithoutPassword } = require("../utils/helper");
+const logger = require('../config/logger');
+const SDC = require('statsd-client');
+const dbConfig = require("../config/config");
+
+const sdc = new SDC({host: dbConfig.METRICS_HOSTNAME, port: dbConfig.METRICS_PORT});
 
 const createUser = (user) => {
+  let start = Date.now();
+  logger.info("Querying db for creating user");
   return new Promise((resolve, reject) => {
     User.create(user)
       .then((user) => {
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken to create user in db', elapsed);
         resolve(userWithoutPassword(user));
       })
       .catch((errorResponse) => {
@@ -25,10 +35,15 @@ const fromattedErrors = (errorResponse) => {
 };
 
 const updateUser = (user, updateValues) => {
+  let start = Date.now();
+  logger.info("Querying db for updating user");
   return new Promise((resolve, reject) => {
     user
       .update(updateValues)
       .then((updatedUser) => {
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken to update user in db', elapsed);
         resolve(userWithoutPassword(updatedUser));
       })
       .catch((errorResponse) => {
@@ -61,12 +76,18 @@ const validateUser = (user, method) => {
 };
 
 const authenticate = (username, password) => {
+  let start = Date.now();
+  logger.info("Querying db for finding user");
   return new Promise((resolve, reject) => {
     User.findOne({ where: { username: username } })
       .then((user) => {
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken for finding user in db', elapsed);
         if (user && bcrypt.compareSync(password, user.password)) {
           resolve(user);
         } else {
+          logger.error("User Authentication failed due to Invalid credentials");
           reject({ message: "Invalid credentials" });
         }
       })

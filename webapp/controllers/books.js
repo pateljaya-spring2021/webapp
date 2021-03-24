@@ -2,8 +2,14 @@ const bookService = require("../services/books");
 const { bookWithoutUpdatedDate } = require("../utils/helper");
 const File = require("../models").File;
 const { reject } = require("lodash");
+const logger = require('../config/logger');
+const SDC = require('statsd-client');
+const dbConfig = require("../config/config");
 
 const createBook = (req, res) => {
+  let start = Date.now();
+  logger.info("Entering create book endpoint");
+  sdc.increment('No of times post/create book endpoint called');
   const userId = req.user.id;
   const { title, author, isbn, published_date } = req.body;
 
@@ -18,48 +24,90 @@ const createBook = (req, res) => {
   bookService
     .createBook(book)
     .then((book) => {
+      logger.info("New book created");
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('time taken for post/create book endpoint', elapsed);
       res.status(201).json(book);
     })
     .catch((errors) => {
+      logger.error(errors[0].message);  
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('time taken for post/create book endpoint', elapsed);
       res.status(400).json(errors);
     });
 };
 
 const getBook = (req, res) => {
+  let start = Date.now();
+  logger.info("Entering get book by id endpoint");
+  sdc.increment('No of times get book by id endpoint called');
   bookService
     .getBook(req.params.id)
     .then((book) => {
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('time taken for get book by id endpoint', elapsed);
       res.status(200).json(bookWithoutUpdatedDate(book));
     })
     .catch((errors) => {
+      logger.error(errors[0].message); 
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('time taken for get book by id endpoint', elapsed); 
       res.status(400).json(errors);
     });
 };
 
 const deleteBook = (req, res) => {
+  let start = Date.now();
+  logger.info("Entering delete book endpoint");
+  sdc.increment('No of times delete book endpoint called');
   bookService
     .deleteBook(req.book)
     .then(() => {
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('time taken for delete book endpoint', elapsed);
       res.sendStatus(204);
     })
     .catch((errors) => {
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('time taken for delete book endpoint', elapsed);
+      logger.error(errors[0].message);  
       res.status(404).json(errors);
     });
 };
 
 const getAllBooks = (req, res) => {
+  let start = Date.now();
+  logger.info("Entering get all books endpoint");
+  sdc.increment('No of times get all books endpoint called');
   bookService
     .getBooks(req.params.id)
     .then((book) => {
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('time taken for get all books endpoint', elapsed);
       res.status(200).json(book);
     })
     .catch((errors) => {
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('time taken for get all books endpoint', elapsed);
+      logger.error(errors[0].message);  
       res.status(400).json(errors);
     });
 };
 
 const addBookImage = async (req, res) => {
+  let start = Date.now();
+  logger.info("Entering add book image endpoint");
+  sdc.increment('No of times add book image endpoint called');
   if (!req.file) {
+    logger.error("No File Uploaded!");
     res.status(400).send({
       message: "No File Uploaded!",
     });
@@ -74,7 +122,11 @@ const addBookImage = async (req, res) => {
     where: { book_id: book_id, file_name: file_name },
   }).then((files) => {
     if (files.length > 0) {
-      reject(
+      logger.error("Duplicate file name not allowed");
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('time taken for add book image endpoint', elapsed);
+      reject(  
         res.status(400).send({
           message: "Duplicate file name not allowed",
         })
@@ -90,16 +142,31 @@ const addBookImage = async (req, res) => {
             bookService
               .createFile(file_name, s3Obj, user_id, book_id)
               .then((file) => {
+                let end = Date.now();
+                var elapsed = end - start;
+                sdc.timing('time taken for add book image endpoint', elapsed);
                 res.status(201).send(file);
               })
               .catch((error) => {
+                logger.error(error);
+                let end = Date.now();
+                var elapsed = end - start;
+                sdc.timing('time taken for add book image endpoint', elapsed);
                 res.status(400).send(error);
               });
           })
           .catch((error) => {
+            logger.error(errors[0].message);  
+            let end = Date.now();
+            var elapsed = end - start;
+            sdc.timing('time taken for add book image endpoint', elapsed);
             res.status(400).send(error);
           });
       } else {
+        logger.error("Unsupported File Type");  
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken for add book image endpoint', elapsed);
         res.status(400).send({
           message: "Unsupported File Type",
         });
@@ -114,6 +181,11 @@ const isValidImage = (file_name) => {
 };
 
 const deleteBookImage = (req, res) => {
+
+  let start = Date.now();
+  logger.info("Entering delete book image endpoint");
+  sdc.increment('No of times delete book image endpoint called');
+
   File.findByPk(req.params.image_id)
     .then((file) => {
       const s3_Key = file.dataValues.s3_object_name.substring(file.dataValues.s3_object_name.lastIndexOf('/') + 1)
@@ -124,20 +196,39 @@ const deleteBookImage = (req, res) => {
             bookService
               .deleteBookImage(file.dataValues.file_id)
               .then(() => {
+                let end = Date.now();
+                var elapsed = end - start;
+                sdc.timing('time taken for delete book image endpoint', elapsed);
                 res.sendStatus(204);
               })
               .catch((errors) => {
+                logger.error(errors);  
+                let end = Date.now();
+                var elapsed = end - start;
+                sdc.timing('time taken for delete book image endpoint', elapsed);
                 res.status(400).json(errors);
               });
           })
           .catch((error) => {
+            logger.error(errors);  
+            let end = Date.now();
+            var elapsed = end - start;
+            sdc.timing('time taken for delete book image endpoint', elapsed);
             res.status(400).send(error);
           });
       } else {
+        logger.error("No such image found");  
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken for delete book image endpoint', elapsed);
         res.status(404).send({ message: "No such image found" });
       }
     })
     .catch((errorResponse) => {
+      logger.error("No such image found");  
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('time taken for delete book image endpoint', elapsed);
       res.status(404).send({ message: "No such image found" });
     });
 };
