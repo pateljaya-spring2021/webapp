@@ -4,11 +4,19 @@ const File = require("../models").File;
 const { bookWithoutUpdatedDate } = require("../utils/helper");
 const fs = require("fs");
 const AWS = require("aws-sdk");
+const logger = require('../config/logger');
+const SDC = require('statsd-client');
+const dbConfig = require("../config/config");
 
 const createBook = (book) => {
+  let start = Date.now();
+  logger.info("Querying db for creating book");
   return new Promise((resolve, reject) => {
     Book.create(book)
       .then((book) => {
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken to create book in db', elapsed);
         resolve(bookWithoutUpdatedDate(book));
       })
       .catch((errorResponse) => {
@@ -18,9 +26,14 @@ const createBook = (book) => {
 };
 
 const getBook = (id) => {
+  let start = Date.now();
+  logger.info("Querying db for getting book by id");
   return new Promise((resolve, reject) => {
     Book.findByPk(id, { include: { model: File, as: "book_images" } })
       .then((book) => {
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken to find book by id in db', elapsed);
         if (book) {
           resolve(book);
         } else {
@@ -34,10 +47,13 @@ const getBook = (id) => {
 };
 
 const deleteBook = (book) => {
+  let start = Date.now();
+  logger.info("Querying db for deleting book");
   return new Promise((resolve, reject) => {
     book
       .destroy()
       .then((book) => {
+
         book.dataValues.book_images.forEach((file) => {
 
           const s3_object_name = file.s3_object_name;
@@ -46,6 +62,9 @@ const deleteBook = (book) => {
 
           deleteBookImageFromS3(s3Key);
         });
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken to delete book in db', elapsed);
         resolve();
       })
       .catch(() => {
@@ -55,9 +74,14 @@ const deleteBook = (book) => {
 };
 
 const getBooks = (id) => {
+  let start = Date.now();
+  logger.info("Querying db for getting all books");
   return new Promise((resolve, reject) => {
     Book.findAll({ include: { model: File, as: "book_images" } })
       .then((book) => {
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken to get all books from db', elapsed);
         resolve(book);
       })
       .catch((errorResponse) => {
@@ -67,6 +91,8 @@ const getBooks = (id) => {
 };
 
 const addBookImageToS3 = (file_path, file_name) => {
+  let start = Date.now();
+  logger.info(`Creating book image ${file_name} in s3 bucket`);
   const s3 = configureS3();
   return new Promise((resolve, reject) => {
     let fileStream = fs.createReadStream(file_path);
@@ -84,6 +110,9 @@ const addBookImageToS3 = (file_path, file_name) => {
         reject({ error: err });
       }
       if (data) {
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing(`time taken to create book image ${uploadParams.Key} in s3`, elapsed);
         console.log("Upload Success", data);
         resolve(data);
       }
@@ -92,6 +121,8 @@ const addBookImageToS3 = (file_path, file_name) => {
 };
 
 const deleteBookImageFromS3 = (file_to_delete) => {
+  let start = Date.now();
+  logger.info(`Deleting book image ${file_to_delete} from s3 bucket`);
   const s3 = configureS3();
   return new Promise((resolve, reject) => {
     let deleteParams = {
@@ -105,6 +136,9 @@ const deleteBookImageFromS3 = (file_to_delete) => {
         reject({ error: err });
       }
       if (data) {
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing(`time taken to delete book image ${deleteParams.Key} from s3`, elapsed);
         console.log("Delete Success", data);
         resolve(data);
       }
@@ -113,6 +147,8 @@ const deleteBookImageFromS3 = (file_to_delete) => {
 };
 
 const deleteBookImage = (file_id) => {
+  let start = Date.now();
+  logger.info("Querying db for deleting book Image");
   return new Promise((resolve, reject) => {
     File.destroy({
       where: {
@@ -120,6 +156,9 @@ const deleteBookImage = (file_id) => {
       },
     })
       .then(() => {
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken to delete book image from db', elapsed);
         resolve();
       })
       .catch(() => {
@@ -134,6 +173,8 @@ const configureS3 = () => {
 };
 
 const createFile = (file_name, s3_object_name, user_id, book_id) => {
+  let start = Date.now();
+  logger.info("Querying db for creating book Image");
   return new Promise((resolve, reject) => {
     File.create({
       file_name: file_name,
@@ -142,6 +183,9 @@ const createFile = (file_name, s3_object_name, user_id, book_id) => {
       book_id: book_id,
     })
       .then((file) => {
+        let end = Date.now();
+        var elapsed = end - start;
+        sdc.timing('time taken to create book image in db', elapsed);
         resolve(file);
       })
       .catch((errorResponse) => {
