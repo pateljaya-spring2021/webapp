@@ -1,7 +1,16 @@
 const userService = require("../services/users");
 const { userWithoutPassword } = require('../utils/helper');
+const logger = require('../config/logger');
+const SDC = require('statsd-client');
+
+const sdc = new SDC({host: 'localhost', port: 8125});
 
 const createUser = (req, res) => {
+
+  let start = Date.now();
+  logger.info("User CREATE Call");
+  sdc.increment('endpoint.user.http.post');
+
   const { first_name, last_name, password, username } = req.body;
 
   const user = {
@@ -15,8 +24,12 @@ const createUser = (req, res) => {
     .createUser(user)
     .then((user) => {
       res.status(201).json(user);
+      logger.info("User has been created..!");
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('timer.self.http.post', elapsed);
     })
-    .catch((errors) => {
+    .catch((errors) => {   
       res.status(400).json(errors);
     });
 };

@@ -7,11 +7,12 @@
     "start": "sequelize db:migrate && nodemon server.js",
     "test": "NODE_ENV=test jest tests",
     "start-ec2-webapp": "sequelize db:migrate && pm2 start server.js",
-    "stop-ec2-webapp": "pm2 stop server" 
+    "stop-ec2-webapp": "pm2 stop server"
   },
   "author": "Jayashree Patel",
   "license": "ISC",
   "dependencies": {
+    "app-root-path": "^3.0.0",
     "aws-sdk": "^2.854.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -24,7 +25,9 @@
     "multer": "^1.4.2",
     "mysql2": "^2.2.5",
     "nodemon": "^2.0.7",
-    "sequelize": "^6.5.0"
+    "sequelize": "^6.5.0",
+    "statsd-client": "^0.4.5",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "jest": "^26.6.3",

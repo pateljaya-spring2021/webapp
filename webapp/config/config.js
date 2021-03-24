@@ -22,4 +22,6 @@ module.exports = {
     host: "127.0.0.1",
     dialect: "mysql",
   },
+  METRICS_HOSTNAME: "localhost",
+  METRICS_PORT: 8125
 };
