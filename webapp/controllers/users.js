@@ -23,14 +23,13 @@ const createUser = (req, res) => {
   userService
     .createUser(user)
     .then((user) => {
-      logger.info("User has been created..!");
-                   let end = Date.now();
-                   var elapsed = end - start;
-                   sdc.timing('timer.self.http.post', elapsed);
       res.status(201).json(user);
+      logger.info("User has been created..!");
+      let end = Date.now();
+      var elapsed = end - start;
+      sdc.timing('timer.self.http.post', elapsed);
     })
-    .catch((errors) => {
-     
+    .catch((errors) => {   
       res.status(400).json(errors);
     });
 };
