@@ -28,6 +28,7 @@ const createUser = (req, res) => {
       let end = Date.now();
       var elapsed = end - start;
       sdc.timing('timer.self.http.post', elapsed);
+      
     })
     .catch((errors) => {   
       res.status(400).json(errors);
