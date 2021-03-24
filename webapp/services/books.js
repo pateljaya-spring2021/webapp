@@ -8,6 +8,8 @@ const logger = require('../config/logger');
 const SDC = require('statsd-client');
 const dbConfig = require("../config/config");
 
+const sdc = new SDC({host: dbConfig.METRICS_HOSTNAME, port: dbConfig.METRICS_PORT});
+
 const createBook = (book) => {
   let start = Date.now();
   logger.info("Querying db for creating book");
