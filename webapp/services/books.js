@@ -187,7 +187,7 @@ const createFile = (file_name, s3_object_name, user_id, book_id) => {
       .then((file) => {
         let end = Date.now();
         var elapsed = end - start;
-        sdc.timing('time taken to create book image in db', elapsed);
+        sdc.timing(`time taken to create book image ${file_name} in db`, elapsed);
         resolve(file);
       })
       .catch((errorResponse) => {
