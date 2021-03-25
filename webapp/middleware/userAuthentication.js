@@ -27,7 +27,7 @@ const authenticateUser = (req, res, next) => {
     })
     .catch((error) => {
       logger.error(error);
-      res.status(401).json(error);
+      res.status(401).json(error.message);
     });
 };
 module.exports = authenticateUser;

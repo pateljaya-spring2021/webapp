@@ -54,11 +54,11 @@ const getBook = (req, res) => {
       res.status(200).json(bookWithoutUpdatedDate(book));
     })
     .catch((errors) => {
-      logger.error(errors[0].message); 
+      logger.error(errors); 
       let end = Date.now();
       var elapsed = end - start;
       sdc.timing('time taken for get book by id endpoint', elapsed); 
-      res.status(400).json(errors);
+      res.status(400).json(errors.message);
     });
 };
 
