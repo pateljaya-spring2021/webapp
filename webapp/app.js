@@ -5,6 +5,7 @@ const express = require('express');
 
 const userRoutes = require("./routes/userRoutes");
 const bookRoutes = require("./routes/bookRoutes");
+const healthRoutes = require("./routes/healthRoutes");
 
 //app
 const app = express();
@@ -16,5 +17,6 @@ app.use(bodyParser.urlencoded({extended:true, limit:'50mb'}));
 //routes
 app.use('/v1/user', userRoutes)
 app.use('/books', bookRoutes)
+app.use('/healthstatus', healthRoutes)
 
 module.exports = app;
