@@ -1,2 +1,2 @@
 #!/bin/bash
-npm run stop-ec2-webapp
+pm2 stop server
