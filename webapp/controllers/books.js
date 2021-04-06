@@ -45,7 +45,7 @@ const createBook = (req, res) => {
         // user: user,
         // question: question,
         // answer: answer,
-        bookGetApi: prod.jayashreepatel.me+"/books/"+book.id,
+        bookGetApi: "prod.jayashreepatel.me"+"/books/"+book.id,
        // answerGetApi: process.env.AWS_ENVIORMENT+"."+process.env.DOMAIN_NAME+"/v1/question/"+question.question_id+"/answer/"+answer.answer_id,
         type: "POST"
 
