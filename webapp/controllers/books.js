@@ -5,6 +5,7 @@ const { reject } = require("lodash");
 const logger = require('../config/logger');
 const SDC = require('statsd-client');
 const dbConfig = require("../config/config");
+const AWS= require('aws-sdk');
 
 const sdc = new SDC({host: dbConfig.METRICS_HOSTNAME, port: dbConfig.METRICS_PORT});
 
@@ -27,6 +28,32 @@ const createBook = (req, res) => {
     .createBook(book)
     .then((book) => {
       logger.info("New book created");
+
+      const book_url=`${req.protocol}://${req.hostname}/books/${book.id}`
+    
+      logger.info(`book URL: ${book_url}`);
+      
+      let params={
+        MessageStructure:"json",
+        Message:JSON.stringify({
+            "default":JSON.stringify({
+                "book_owner_name":req.user.first_name + " " + req.user.last_name,
+                "book_id": book.id,
+                "title": book.title,
+                "author": book.author,
+                "isbn": book.isbn,
+                "published_date": book.published_date,
+                "user_id": book.user_id,
+                "book_created": book.book_created,
+            })
+        }),
+        TopicArn:process.env.sns_topic 
+    }
+    var publish= new AWS.SNS().publish(params).promise();
+    const data= await publish;
+    console.log(data);
+    logger.info(`Published message: ${data.MessageId} to topic`);
+    
       let end = Date.now();
       var elapsed = end - start;
       sdc.timing('time taken for post/create book endpoint', elapsed);
