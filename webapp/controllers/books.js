@@ -5,8 +5,13 @@ const { reject } = require("lodash");
 const logger = require('../config/logger');
 const SDC = require('statsd-client');
 const dbConfig = require("../config/config");
+const AWS = require('aws-sdk');
+require('dotenv').config();
 
 const sdc = new SDC({host: dbConfig.METRICS_HOSTNAME, port: dbConfig.METRICS_PORT});
+
+AWS.config.update({ region: process.env.AWS_DEFAULT_REGION});
+const SNS = new AWS.SNS({apiVersion: '2010-03-31'});
 
 const createBook = (req, res) => {
   let start = Date.now();
@@ -27,10 +32,49 @@ const createBook = (req, res) => {
     .createBook(book)
     .then((book) => {
       logger.info("New book created");
+
       let end = Date.now();
       var elapsed = end - start;
       sdc.timing('time taken for post/create book endpoint', elapsed);
-      res.status(201).json(book);
+
+    const data = {
+
+        ToAddresses: req.user.username,
+        // user: user,
+        // question: question,
+        // answer: answer,
+        bookGetApi: prod.jayashreepatel.me+"/books/"+book.id,
+       // answerGetApi: process.env.AWS_ENVIORMENT+"."+process.env.DOMAIN_NAME+"/v1/question/"+question.question_id+"/answer/"+answer.answer_id,
+        type: "POST"
+
+    }
+
+    const params = {
+
+        Message: JSON.stringify(data),
+        TopicArn: process.env.AWS_SNS_ARN
+
+    }
+
+    let publishTextPromise = SNS.publish(params).promise();
+
+    publishTextPromise.then(
+        function(data) {
+
+            console.log(`Message sent to the topic ${params.TopicArn}`);
+            console.log("MessageID is " + data.MessageId);
+            res.status(201).json(book);
+            logger.info("Book has been created..!");
+
+        }).catch(
+        function(err) {
+
+            console.error(err, err.stack);
+            res.status(500).send(err)
+        }); 
+    
+
+
     })
     .catch((errors) => {
       logger.error(errors[0].message);  
