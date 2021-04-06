@@ -8,6 +8,7 @@ const dbConfig = require("../config/config");
 const AWS = require('aws-sdk');
 require('dotenv').config();
 
+
 const sdc = new SDC({host: dbConfig.METRICS_HOSTNAME, port: dbConfig.METRICS_PORT});
 
 AWS.config.update({ region: process.env.AWS_DEFAULT_REGION});
@@ -32,6 +33,7 @@ const createBook = (req, res) => {
     .createBook(book)
     .then((book) => {
       logger.info("New book created");
+
 
       let end = Date.now();
       var elapsed = end - start;
