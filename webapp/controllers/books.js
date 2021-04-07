@@ -40,11 +40,12 @@ const createBook = (req, res) => {
       var elapsed = end - start;
       sdc.timing("time taken for post/create book endpoint", elapsed);
 
-      let body_message =
-        "Please click here to view the details of the book:  http://prod.jayashreepatel.me/books/" +
-        book.id;
+      console.log('book',book);
 
-      console.log("1");
+      let body_message = `User ${req.user.first_name} ${req.user.last_name} with username ${req.user.username} and userId ${req.user.id} created a new Book with id ${book.id} is created. \n\n Please click here to view the details of the book:  http://prod.jayashreepatel.me/books/${book.id}`;
+     
+
+      console.log("1",body_message);
 
       const data = {
         ToAddresses: req.user.username,
@@ -116,7 +117,7 @@ const deleteBook = (req, res) => {
       var elapsed = end - start;
       sdc.timing("time taken for delete book endpoint", elapsed);
       
-      const body_message = `Book with id ${req.book.dataValues.id} is deleted.`;  
+      const body_message = `User ${req.user.first_name} ${req.user.last_name} with username ${req.user.username} and userId ${req.user.id} successfully deleted Book with id ${req.book.dataValues.id}. The author of the book is ${req.book.dataValues.author} and its title is ${req.book.dataValues.title}`;  
 
       const data = {
         ToAddresses: req.user.username,
