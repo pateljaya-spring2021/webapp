@@ -73,6 +73,7 @@ const createBook = (req, res) => {
           console.error(err, err.stack);
           res.status(500).send(err);
         });
+
     })
     .catch((errors) => {
       logger.error(errors);
@@ -115,17 +116,17 @@ const deleteBook = (req, res) => {
       var elapsed = end - start;
       sdc.timing("time taken for delete book endpoint", elapsed);
       
-      let body_message = `Book with id ${book.id} is deleted.`     
+      const body_message = `Book with id ${req.book.dataValues.id} is deleted.`;  
 
       const data = {
         ToAddresses: req.user.username,
-        bookId: book.id,
+        bookId: req.book.dataValues.id,
         subject: "Book deleted",
         email_body: body_message,
         type: "DELETE"
       };
 
-      console.log("2");
+
       const params = {
         Message: JSON.stringify(data),
         TopicArn: process.env.AWS_SNS_ARN,
@@ -151,7 +152,7 @@ const deleteBook = (req, res) => {
       let end = Date.now();
       var elapsed = end - start;
       sdc.timing("time taken for delete book endpoint", elapsed);
-      logger.error(errors[0].message);
+      logger.error(errors);
       res.status(404).json(errors);
     });
 };
