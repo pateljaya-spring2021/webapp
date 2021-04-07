@@ -34,30 +34,28 @@ const createBook = (req, res) => {
     .then((book) => {
       logger.info("New book created");
 
-
       let end = Date.now();
       var elapsed = end - start;
       sdc.timing('time taken for post/create book endpoint', elapsed);
 
-      let message = "New book created with Book Id: "  + book.id + " posted by " + user.username
-                        +  "\n\nPlease click here to view the details of the book:  http://prod.jayashreepatel.me/books/"+book.id 
+      console.log('0');
+    //  let body_message = "New book created with Book Id: "  + book.id + " posted by " + user.username +  "\n\nPlease click here to view the details of the book:  http://prod.jayashreepatel.me/books/"+book.id;
+     let body_message =  "Please click here to view the details of the book:  http://prod.jayashreepatel.me/books/"+book.id;
 
-    const data = {
-
+      console.log('1')
+      
+      const data = {
         ToAddresses: req.user.username,
         bookId: book.id,
-        bookGetApi: "prod.jayashreepatel.me"+"/books/"+book.id,
         subject: "New book created",
-        email_body: message,
+        email_body: body_message,
         type: "POST"
+      }
 
-    }
-
+    console.log('2')
     const params = {
-
         Message: JSON.stringify(data),
         TopicArn: process.env.AWS_SNS_ARN
-
     }
 
     let publishTextPromise = SNS.publish(params).promise();
@@ -81,7 +79,7 @@ const createBook = (req, res) => {
 
     })
     .catch((errors) => {
-      logger.error(errors[0].message);  
+      logger.error(errors);  
       let end = Date.now();
       var elapsed = end - start;
       sdc.timing('time taken for post/create book endpoint', elapsed);
