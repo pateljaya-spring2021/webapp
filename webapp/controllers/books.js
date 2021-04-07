@@ -2,22 +2,24 @@ const bookService = require("../services/books");
 const { bookWithoutUpdatedDate } = require("../utils/helper");
 const File = require("../models").File;
 const { reject } = require("lodash");
-const logger = require('../config/logger');
-const SDC = require('statsd-client');
+const logger = require("../config/logger");
+const SDC = require("statsd-client");
 const dbConfig = require("../config/config");
-const AWS = require('aws-sdk');
-require('dotenv').config();
+const AWS = require("aws-sdk");
+require("dotenv").config();
 
+const sdc = new SDC({
+  host: dbConfig.METRICS_HOSTNAME,
+  port: dbConfig.METRICS_PORT,
+});
 
-const sdc = new SDC({host: dbConfig.METRICS_HOSTNAME, port: dbConfig.METRICS_PORT});
-
-AWS.config.update({ region: process.env.AWS_DEFAULT_REGION});
-const SNS = new AWS.SNS({apiVersion: '2010-03-31'});
+AWS.config.update({ region: process.env.AWS_DEFAULT_REGION });
+const SNS = new AWS.SNS({ apiVersion: "2010-03-31" });
 
 const createBook = (req, res) => {
   let start = Date.now();
   logger.info("Entering create book endpoint");
-  sdc.increment('No of times post/create book endpoint called');
+  sdc.increment("No of times post/create book endpoint called");
   const userId = req.user.id;
   const { title, author, isbn, published_date } = req.body;
 
@@ -36,53 +38,47 @@ const createBook = (req, res) => {
 
       let end = Date.now();
       var elapsed = end - start;
-      sdc.timing('time taken for post/create book endpoint', elapsed);
+      sdc.timing("time taken for post/create book endpoint", elapsed);
 
-      console.log('0');
-    //  let body_message = "New book created with Book Id: "  + book.id + " posted by " + user.username +  "\n\nPlease click here to view the details of the book:  http://prod.jayashreepatel.me/books/"+book.id;
-     let body_message =  "Please click here to view the details of the book:  http://prod.jayashreepatel.me/books/"+book.id;
+      let body_message =
+        "Please click here to view the details of the book:  http://prod.jayashreepatel.me/books/" +
+        book.id;
 
-      console.log('1')
-      
+      console.log("1");
+
       const data = {
         ToAddresses: req.user.username,
         bookId: book.id,
         subject: "New book created",
         email_body: body_message,
-        type: "POST"
-      }
+        type: "POST",
+      };
 
-    console.log('2')
-    const params = {
+      console.log("2");
+      const params = {
         Message: JSON.stringify(data),
-        TopicArn: process.env.AWS_SNS_ARN
-    }
+        TopicArn: process.env.AWS_SNS_ARN,
+      };
 
-    let publishTextPromise = SNS.publish(params).promise();
+      let publishTextPromise = SNS.publish(params).promise();
 
-    publishTextPromise.then(
-        function(data) {
-
-            console.log(`Message sent to the topic ${params.TopicArn}`);
-            console.log("MessageID is " + data.MessageId);
-            res.status(201).json(book);
-            logger.info("Book has been created..!");
-
-        }).catch(
-        function(err) {
-
-            console.error(err, err.stack);
-            res.status(500).send(err)
-        }); 
-    
-
-
+      publishTextPromise
+        .then(function (data) {
+          console.log(`Message sent to the topic ${params.TopicArn}`);
+          console.log("MessageID is " + data.MessageId);
+          res.status(201).json(book);
+          logger.info("Book has been created..!");
+        })
+        .catch(function (err) {
+          console.error(err, err.stack);
+          res.status(500).send(err);
+        });
     })
     .catch((errors) => {
-      logger.error(errors);  
+      logger.error(errors);
       let end = Date.now();
       var elapsed = end - start;
-      sdc.timing('time taken for post/create book endpoint', elapsed);
+      sdc.timing("time taken for post/create book endpoint", elapsed);
       res.status(400).json(errors);
     });
 };
@@ -90,20 +86,20 @@ const createBook = (req, res) => {
 const getBook = (req, res) => {
   let start = Date.now();
   logger.info("Entering get book by id endpoint");
-  sdc.increment('No of times get book by id endpoint called');
+  sdc.increment("No of times get book by id endpoint called");
   bookService
     .getBook(req.params.id)
     .then((book) => {
       let end = Date.now();
       var elapsed = end - start;
-      sdc.timing('time taken for get book by id endpoint', elapsed);
+      sdc.timing("time taken for get book by id endpoint", elapsed);
       res.status(200).json(bookWithoutUpdatedDate(book));
     })
     .catch((errors) => {
-      logger.error(errors); 
+      logger.error(errors);
       let end = Date.now();
       var elapsed = end - start;
-      sdc.timing('time taken for get book by id endpoint', elapsed); 
+      sdc.timing("time taken for get book by id endpoint", elapsed);
       res.status(400).json(errors.message);
     });
 };
@@ -111,20 +107,51 @@ const getBook = (req, res) => {
 const deleteBook = (req, res) => {
   let start = Date.now();
   logger.info("Entering delete book endpoint");
-  sdc.increment('No of times delete book endpoint called');
+  sdc.increment("No of times delete book endpoint called");
   bookService
     .deleteBook(req.book)
     .then(() => {
       let end = Date.now();
       var elapsed = end - start;
-      sdc.timing('time taken for delete book endpoint', elapsed);
-      res.sendStatus(204);
+      sdc.timing("time taken for delete book endpoint", elapsed);
+      
+      let body_message = `Book with id ${book.id} is deleted.`     
+
+      const data = {
+        ToAddresses: req.user.username,
+        bookId: book.id,
+        subject: "Book deleted",
+        email_body: body_message,
+        type: "DELETE"
+      };
+
+      console.log("2");
+      const params = {
+        Message: JSON.stringify(data),
+        TopicArn: process.env.AWS_SNS_ARN,
+      };
+
+      let publishTextPromise = SNS.publish(params).promise();
+
+      publishTextPromise
+        .then(function (data) {
+          console.log(`Message sent to the topic ${params.TopicArn}`);
+          console.log("MessageID is " + data.MessageId);
+          res.sendStatus(204);
+          logger.info("Book has been deleted..!");
+        })
+        .catch(function (err) {
+          console.error(err, err.stack);
+          res.status(500).send(err);
+        });
+
+     
     })
     .catch((errors) => {
       let end = Date.now();
       var elapsed = end - start;
-      sdc.timing('time taken for delete book endpoint', elapsed);
-      logger.error(errors[0].message);  
+      sdc.timing("time taken for delete book endpoint", elapsed);
+      logger.error(errors[0].message);
       res.status(404).json(errors);
     });
 };
@@ -132,20 +159,20 @@ const deleteBook = (req, res) => {
 const getAllBooks = (req, res) => {
   let start = Date.now();
   logger.info("Entering get all books endpoint");
-  sdc.increment('No of times get all books endpoint called');
+  sdc.increment("No of times get all books endpoint called");
   bookService
     .getBooks(req.params.id)
     .then((book) => {
       let end = Date.now();
       var elapsed = end - start;
-      sdc.timing('time taken for get all books endpoint', elapsed);
+      sdc.timing("time taken for get all books endpoint", elapsed);
       res.status(200).json(book);
     })
     .catch((errors) => {
       let end = Date.now();
       var elapsed = end - start;
-      sdc.timing('time taken for get all books endpoint', elapsed);
-      logger.error(errors[0].message);  
+      sdc.timing("time taken for get all books endpoint", elapsed);
+      logger.error(errors[0].message);
       res.status(400).json(errors);
     });
 };
@@ -153,7 +180,7 @@ const getAllBooks = (req, res) => {
 const addBookImage = async (req, res) => {
   let start = Date.now();
   logger.info("Entering add book image endpoint");
-  sdc.increment('No of times add book image endpoint called');
+  sdc.increment("No of times add book image endpoint called");
   if (!req.file) {
     logger.error("No File Uploaded!");
     res.status(400).send({
@@ -173,8 +200,8 @@ const addBookImage = async (req, res) => {
       logger.error("Duplicate file name not allowed");
       let end = Date.now();
       var elapsed = end - start;
-      sdc.timing('time taken for add book image endpoint', elapsed);
-      reject(  
+      sdc.timing("time taken for add book image endpoint", elapsed);
+      reject(
         res.status(400).send({
           message: "Duplicate file name not allowed",
         })
@@ -192,29 +219,29 @@ const addBookImage = async (req, res) => {
               .then((file) => {
                 let end = Date.now();
                 var elapsed = end - start;
-                sdc.timing('time taken for add book image endpoint', elapsed);
+                sdc.timing("time taken for add book image endpoint", elapsed);
                 res.status(201).send(file);
               })
               .catch((error) => {
                 logger.error(error);
                 let end = Date.now();
                 var elapsed = end - start;
-                sdc.timing('time taken for add book image endpoint', elapsed);
+                sdc.timing("time taken for add book image endpoint", elapsed);
                 res.status(400).send(error);
               });
           })
           .catch((error) => {
-            logger.error(errors[0].message);  
+            logger.error(errors[0].message);
             let end = Date.now();
             var elapsed = end - start;
-            sdc.timing('time taken for add book image endpoint', elapsed);
+            sdc.timing("time taken for add book image endpoint", elapsed);
             res.status(400).send(error);
           });
       } else {
-        logger.error("Unsupported File Type");  
+        logger.error("Unsupported File Type");
         let end = Date.now();
         var elapsed = end - start;
-        sdc.timing('time taken for add book image endpoint', elapsed);
+        sdc.timing("time taken for add book image endpoint", elapsed);
         res.status(400).send({
           message: "Unsupported File Type",
         });
@@ -229,14 +256,15 @@ const isValidImage = (file_name) => {
 };
 
 const deleteBookImage = (req, res) => {
-
   let start = Date.now();
   logger.info("Entering delete book image endpoint");
-  sdc.increment('No of times delete book image endpoint called');
+  sdc.increment("No of times delete book image endpoint called");
 
   File.findByPk(req.params.image_id)
     .then((file) => {
-      const s3_Key = file.dataValues.s3_object_name.substring(file.dataValues.s3_object_name.lastIndexOf('/') + 1)
+      const s3_Key = file.dataValues.s3_object_name.substring(
+        file.dataValues.s3_object_name.lastIndexOf("/") + 1
+      );
       if (file) {
         bookService
           .deleteBookImageFromS3(s3_Key)
@@ -246,37 +274,43 @@ const deleteBookImage = (req, res) => {
               .then(() => {
                 let end = Date.now();
                 var elapsed = end - start;
-                sdc.timing('time taken for delete book image endpoint', elapsed);
+                sdc.timing(
+                  "time taken for delete book image endpoint",
+                  elapsed
+                );
                 res.sendStatus(204);
               })
               .catch((errors) => {
-                logger.error(errors);  
+                logger.error(errors);
                 let end = Date.now();
                 var elapsed = end - start;
-                sdc.timing('time taken for delete book image endpoint', elapsed);
+                sdc.timing(
+                  "time taken for delete book image endpoint",
+                  elapsed
+                );
                 res.status(400).json(errors);
               });
           })
           .catch((error) => {
-            logger.error(errors);  
+            logger.error(errors);
             let end = Date.now();
             var elapsed = end - start;
-            sdc.timing('time taken for delete book image endpoint', elapsed);
+            sdc.timing("time taken for delete book image endpoint", elapsed);
             res.status(400).send(error);
           });
       } else {
-        logger.error("No such image found");  
+        logger.error("No such image found");
         let end = Date.now();
         var elapsed = end - start;
-        sdc.timing('time taken for delete book image endpoint', elapsed);
+        sdc.timing("time taken for delete book image endpoint", elapsed);
         res.status(404).send({ message: "No such image found" });
       }
     })
     .catch((errorResponse) => {
-      logger.error("No such image found");  
+      logger.error("No such image found");
       let end = Date.now();
       var elapsed = end - start;
-      sdc.timing('time taken for delete book image endpoint', elapsed);
+      sdc.timing("time taken for delete book image endpoint", elapsed);
       res.status(404).send({ message: "No such image found" });
     });
 };
