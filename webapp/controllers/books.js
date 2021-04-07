@@ -60,20 +60,20 @@ const createBook = (req, res) => {
         TopicArn: process.env.AWS_SNS_ARN,
       };
 
-      // let publishTextPromise = SNS.publish(params).promise();
+      let publishTextPromise = SNS.publish(params).promise();
 
-      // publishTextPromise
-      //   .then(function (data) {
-      //     console.log(`Message sent to the topic ${params.TopicArn}`);
-      //     console.log("MessageID is " + data.MessageId);
-      //     res.status(201).json(book);
-      //     logger.info("Book has been created..!");
-      //   })
-      //   .catch(function (err) {
-      //     console.error(err, err.stack);
-      //     res.status(500).send(err);
-      //   });
-      res.status(201).json(book);
+      publishTextPromise
+        .then(function (data) {
+          console.log(`Message sent to the topic ${params.TopicArn}`);
+          console.log("MessageID is " + data.MessageId);
+          res.status(201).json(book);
+          logger.info("Book has been created..!");
+        })
+        .catch(function (err) {
+          console.error(err, err.stack);
+          res.status(500).send(err);
+        });
+
     })
     .catch((errors) => {
       logger.error(errors);
@@ -116,11 +116,8 @@ const deleteBook = (req, res) => {
       var elapsed = end - start;
       sdc.timing("time taken for delete book endpoint", elapsed);
       
-      console.log('1',req.book.dataValues.id);
-      console.log('11',req.user.username);
-      
       const body_message = `Book with id ${req.book.dataValues.id} is deleted.`;  
-      console.log('2')
+
       const data = {
         ToAddresses: req.user.username,
         bookId: req.book.dataValues.id,
@@ -129,7 +126,7 @@ const deleteBook = (req, res) => {
         type: "DELETE"
       };
 
-      console.log("3");
+
       const params = {
         Message: JSON.stringify(data),
         TopicArn: process.env.AWS_SNS_ARN,
