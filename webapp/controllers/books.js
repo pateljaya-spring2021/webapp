@@ -60,19 +60,20 @@ const createBook = (req, res) => {
         TopicArn: process.env.AWS_SNS_ARN,
       };
 
-      let publishTextPromise = SNS.publish(params).promise();
+      // let publishTextPromise = SNS.publish(params).promise();
 
-      publishTextPromise
-        .then(function (data) {
-          console.log(`Message sent to the topic ${params.TopicArn}`);
-          console.log("MessageID is " + data.MessageId);
-          res.status(201).json(book);
-          logger.info("Book has been created..!");
-        })
-        .catch(function (err) {
-          console.error(err, err.stack);
-          res.status(500).send(err);
-        });
+      // publishTextPromise
+      //   .then(function (data) {
+      //     console.log(`Message sent to the topic ${params.TopicArn}`);
+      //     console.log("MessageID is " + data.MessageId);
+      //     res.status(201).json(book);
+      //     logger.info("Book has been created..!");
+      //   })
+      //   .catch(function (err) {
+      //     console.error(err, err.stack);
+      //     res.status(500).send(err);
+      //   });
+      res.status(201).json(book);
     })
     .catch((errors) => {
       logger.error(errors);
@@ -115,17 +116,20 @@ const deleteBook = (req, res) => {
       var elapsed = end - start;
       sdc.timing("time taken for delete book endpoint", elapsed);
       
-      let body_message = `Book with id ${book.id} is deleted.`     
-
+      console.log('1',req.book.dataValues.id);
+      console.log('11',req.user.username);
+      
+      const body_message = `Book with id ${req.book.dataValues.id} is deleted.`;  
+      console.log('2')
       const data = {
         ToAddresses: req.user.username,
-        bookId: book.id,
+        bookId: req.book.dataValues.id,
         subject: "Book deleted",
         email_body: body_message,
         type: "DELETE"
       };
 
-      console.log("2");
+      console.log("3");
       const params = {
         Message: JSON.stringify(data),
         TopicArn: process.env.AWS_SNS_ARN,
@@ -151,7 +155,7 @@ const deleteBook = (req, res) => {
       let end = Date.now();
       var elapsed = end - start;
       sdc.timing("time taken for delete book endpoint", elapsed);
-      logger.error(errors[0].message);
+      logger.error(errors);
       res.status(404).json(errors);
     });
 };

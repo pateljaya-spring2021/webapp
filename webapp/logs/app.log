@@ -127,3 +127,214 @@
 {"message":"Entering create book endpoint","level":"info"}
 {"message":"Querying db for creating book","level":"info"}
 {"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"No such book found","level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"No such book found","level":"error"}
+{"message":"Entering get all books endpoint","level":"info"}
+{"message":"Querying db for getting all books","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering delete book endpoint","level":"info"}
+{"message":"Querying db for deleting book","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"No such book found","level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"No such book found","level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"No such book found","level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering delete book endpoint","level":"info"}
+{"message":"Querying db for deleting book","level":"info"}
+{"level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"No such book found","level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering delete book endpoint","level":"info"}
+{"message":"Querying db for deleting book","level":"info"}
+{"level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering delete book endpoint","level":"info"}
+{"message":"Querying db for deleting book","level":"info"}
+{"level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering delete book endpoint","level":"info"}
+{"message":"Querying db for deleting book","level":"info"}
+{"level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering delete book endpoint","level":"info"}
+{"message":"Querying db for deleting book","level":"info"}
+{"level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering delete book endpoint","level":"info"}
+{"message":"Querying db for deleting book","level":"info"}
+{"level":"error"}
+{"error":{},"level":"error","message":"uncaughtException: Identifier 'data' has already been declared\n/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/controllers/books.js:123\n      const data = {\n            ^\n\nSyntaxError: Identifier 'data' has already been declared\n    at wrapSafe (internal/modules/cjs/loader.js:1116:16)\n    at Module._compile (internal/modules/cjs/loader.js:1164:27)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)\n    at Module.load (internal/modules/cjs/loader.js:1049:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:937:14)\n    at Module.require (internal/modules/cjs/loader.js:1089:19)\n    at require (internal/modules/cjs/helpers.js:73:18)\n    at Object.<anonymous> (/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/routes/bookRoutes.js:5:25)\n    at Module._compile (internal/modules/cjs/loader.js:1200:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)","stack":"/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/controllers/books.js:123\n      const data = {\n            ^\n\nSyntaxError: Identifier 'data' has already been declared\n    at wrapSafe (internal/modules/cjs/loader.js:1116:16)\n    at Module._compile (internal/modules/cjs/loader.js:1164:27)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)\n    at Module.load (internal/modules/cjs/loader.js:1049:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:937:14)\n    at Module.require (internal/modules/cjs/loader.js:1089:19)\n    at require (internal/modules/cjs/helpers.js:73:18)\n    at Object.<anonymous> (/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/routes/bookRoutes.js:5:25)\n    at Module._compile (internal/modules/cjs/loader.js:1200:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)","exception":true,"date":"Wed Apr 07 2021 13:10:36 GMT-0400 (Eastern Daylight Time)","process":{"pid":72095,"uid":501,"gid":20,"cwd":"/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp","execPath":"/usr/local/bin/node","version":"v14.4.0","argv":["/usr/local/bin/node","/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/server.js"],"memoryUsage":{"rss":58859520,"heapTotal":32321536,"heapUsed":22853584,"external":1961571,"arrayBuffers":518536}},"os":{"loadavg":[2.76025390625,2.60302734375,2.50341796875],"uptime":274355},"trace":[{"column":16,"file":"internal/modules/cjs/loader.js","function":"wrapSafe","line":1116,"method":null,"native":false},{"column":27,"file":"internal/modules/cjs/loader.js","function":"Module._compile","line":1164,"method":"_compile","native":false},{"column":10,"file":"internal/modules/cjs/loader.js","function":"Module._extensions..js","line":1220,"method":".js","native":false},{"column":32,"file":"internal/modules/cjs/loader.js","function":"Module.load","line":1049,"method":"load","native":false},{"column":14,"file":"internal/modules/cjs/loader.js","function":"Module._load","line":937,"method":"_load","native":false},{"column":19,"file":"internal/modules/cjs/loader.js","function":"Module.require","line":1089,"method":"require","native":false},{"column":18,"file":"internal/modules/cjs/helpers.js","function":"require","line":73,"method":null,"native":false},{"column":25,"file":"/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/routes/bookRoutes.js","function":null,"line":5,"method":null,"native":false},{"column":30,"file":"internal/modules/cjs/loader.js","function":"Module._compile","line":1200,"method":"_compile","native":false},{"column":10,"file":"internal/modules/cjs/loader.js","function":"Module._extensions..js","line":1220,"method":".js","native":false}]}
+{"error":{},"level":"error","message":"uncaughtException: Identifier 'data' has already been declared\n/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/controllers/books.js:123\n      const data = {\n            ^\n\nSyntaxError: Identifier 'data' has already been declared\n    at wrapSafe (internal/modules/cjs/loader.js:1116:16)\n    at Module._compile (internal/modules/cjs/loader.js:1164:27)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)\n    at Module.load (internal/modules/cjs/loader.js:1049:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:937:14)\n    at Module.require (internal/modules/cjs/loader.js:1089:19)\n    at require (internal/modules/cjs/helpers.js:73:18)\n    at Object.<anonymous> (/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/routes/bookRoutes.js:5:25)\n    at Module._compile (internal/modules/cjs/loader.js:1200:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)","stack":"/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/controllers/books.js:123\n      const data = {\n            ^\n\nSyntaxError: Identifier 'data' has already been declared\n    at wrapSafe (internal/modules/cjs/loader.js:1116:16)\n    at Module._compile (internal/modules/cjs/loader.js:1164:27)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)\n    at Module.load (internal/modules/cjs/loader.js:1049:32)\n    at Function.Module._load (internal/modules/cjs/loader.js:937:14)\n    at Module.require (internal/modules/cjs/loader.js:1089:19)\n    at require (internal/modules/cjs/helpers.js:73:18)\n    at Object.<anonymous> (/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/routes/bookRoutes.js:5:25)\n    at Module._compile (internal/modules/cjs/loader.js:1200:30)\n    at Object.Module._extensions..js (internal/modules/cjs/loader.js:1220:10)","exception":true,"date":"Wed Apr 07 2021 13:10:38 GMT-0400 (Eastern Daylight Time)","process":{"pid":72111,"uid":501,"gid":20,"cwd":"/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp","execPath":"/usr/local/bin/node","version":"v14.4.0","argv":["/usr/local/bin/node","/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/server.js"],"memoryUsage":{"rss":60428288,"heapTotal":32321536,"heapUsed":22781784,"external":1950558,"arrayBuffers":507523}},"os":{"loadavg":[2.69921875,2.5927734375,2.5],"uptime":274357},"trace":[{"column":16,"file":"internal/modules/cjs/loader.js","function":"wrapSafe","line":1116,"method":null,"native":false},{"column":27,"file":"internal/modules/cjs/loader.js","function":"Module._compile","line":1164,"method":"_compile","native":false},{"column":10,"file":"internal/modules/cjs/loader.js","function":"Module._extensions..js","line":1220,"method":".js","native":false},{"column":32,"file":"internal/modules/cjs/loader.js","function":"Module.load","line":1049,"method":"load","native":false},{"column":14,"file":"internal/modules/cjs/loader.js","function":"Module._load","line":937,"method":"_load","native":false},{"column":19,"file":"internal/modules/cjs/loader.js","function":"Module.require","line":1089,"method":"require","native":false},{"column":18,"file":"internal/modules/cjs/helpers.js","function":"require","line":73,"method":null,"native":false},{"column":25,"file":"/Users/jayashree/Documents/GitHub/Cloud/webapp/webapp/routes/bookRoutes.js","function":null,"line":5,"method":null,"native":false},{"column":30,"file":"internal/modules/cjs/loader.js","function":"Module._compile","line":1200,"method":"_compile","native":false},{"column":10,"file":"internal/modules/cjs/loader.js","function":"Module._extensions..js","line":1220,"method":".js","native":false}]}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering delete book endpoint","level":"info"}
+{"message":"Querying db for deleting book","level":"info"}
+{"level":"error"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering delete book endpoint","level":"info"}
+{"message":"Querying db for deleting book","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering create book endpoint","level":"info"}
+{"message":"Querying db for creating book","level":"info"}
+{"message":"New book created","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for finding user","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering User Authentication","level":"info"}
+{"message":"Querying db for getting book by id","level":"info"}
+{"message":"User Authenticated","level":"info"}
+{"message":"Entering delete book endpoint","level":"info"}
+{"message":"Querying db for deleting book","level":"info"}
