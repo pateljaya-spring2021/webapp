@@ -39,14 +39,16 @@ const createBook = (req, res) => {
       var elapsed = end - start;
       sdc.timing('time taken for post/create book endpoint', elapsed);
 
+      let message = "New book created with Book Id: "  + book.id + " posted by " + user.username
+                        +  "\n\nPlease click here to view the details of the book:  http://prod.jayashreepatel.me/books/"+book.id 
+
     const data = {
 
         ToAddresses: req.user.username,
-        // user: user,
-        // question: question,
-        // answer: answer,
+        bookId: book.id,
         bookGetApi: "prod.jayashreepatel.me"+"/books/"+book.id,
-       // answerGetApi: process.env.AWS_ENVIORMENT+"."+process.env.DOMAIN_NAME+"/v1/question/"+question.question_id+"/answer/"+answer.answer_id,
+        subject: "New book created",
+        email_body: message,
         type: "POST"
 
     }
