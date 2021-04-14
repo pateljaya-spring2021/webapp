@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 module.exports = {
   development: {
     username: process.env.DB_USERNAME,
@@ -6,6 +7,10 @@ module.exports = {
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
     dialect: "mysql",
+    dialectOptions: {
+      ssl: 'Amazon RDS',
+      rejectUnauthorized: true,
+    },
   },
   test: {
     username: 'root',
