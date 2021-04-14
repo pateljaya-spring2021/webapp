@@ -42,7 +42,7 @@ const createBook = (req, res) => {
 
       console.log('book',book);
 
-      let body_message = `User ${req.user.first_name} ${req.user.last_name} with username ${req.user.username} and userId ${req.user.id} created a new Book with id ${book.id} is created. \n\n Please click here to view the details of the book:  http://prod.jayashreepatel.me/books/${book.id}`;
+      let body_message = `User ${req.user.first_name} ${req.user.last_name} with username ${req.user.username} and userId ${req.user.id} created a new Book with id ${book.id} is created. \n\n Please click here to view the details of the book:  https://prod.jayashreepatel.me/books/${book.id}`;
      
 
       console.log("1",body_message);
